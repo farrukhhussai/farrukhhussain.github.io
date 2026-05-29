@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FH. — Electrical & AI Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#03090f;--card:#081525;--card2:#0c1c30;
+  --gold:#c8a84b;--gold2:#e2c068;--gold3:#f5e0a0;
+  --blue:#0ea5e9;--blue2:#38bdf8;--purple:#818cf8;
+  --gb:rgba(200,168,75,.1);--gborder:rgba(200,168,75,.18);
+  --bb:rgba(14,165,233,.1);--bborder:rgba(14,165,233,.15);
+  --text:#dde4f0;--muted:#506070;--white:#ffffff;
+  --green:#34d399;
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--text);font-family:'Inter',sans-serif;line-height:1.7;overflow-x:hidden}
+
+/* ── BACKGROUNDS ── */
+.bg-layer{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;
+  opacity:0;transition:opacity 2.5s ease,transform .15s ease;pointer-events:none;transform:scale(1.07)}
+.bg-layer.on{opacity:1}
+.bg-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(150deg,rgba(3,9,15,.93) 0%,rgba(6,14,24,.8) 50%,rgba(3,9,15,.95) 100%)}
+.bg-grid{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.022;
+  background-image:linear-gradient(rgba(200,168,75,.7) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(200,168,75,.7) 1px,transparent 1px);
+  background-size:56px 56px}
+
+/* BG DOTS */
+.bg-switcher{position:fixed;bottom:22px;right:28px;z-index:500;
+  display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.bsw-label{font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(200,168,75,.5);margin-bottom:2px}
+.bsw-dots{display:flex;gap:6px}
+.bsw-dot{width:8px;height:8px;border-radius:50%;
+  border:1px solid rgba(200,168,75,.4);background:rgba(200,168,75,.2);
+  cursor:pointer;transition:all .3s}
+.bsw-dot.on{background:var(--gold);width:20px;border-radius:4px}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:400;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 60px;background:rgba(3,9,15,.85);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--gborder)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:800;
+  letter-spacing:-.5px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:500;
+  letter-spacing:.3px;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;
+  height:1px;background:var(--gold);transform:scaleX(0);transition:transform .25s}
+.nav-links a:hover{color:var(--gold2)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cv{background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);padding:8px 20px;border-radius:6px;
+  font-weight:700;font-size:.8rem;text-decoration:none;
+  letter-spacing:.3px;transition:opacity .2s}
+.nav-cv:hover{opacity:.88}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;
+  position:relative;z-index:2;padding:120px 60px 80px;max-width:1240px;margin:0 auto}
+.hero-grid{display:grid;grid-template-columns:1fr 300px;gap:60px;align-items:center;width:100%}
+
+.avail{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);
+  color:var(--green);padding:6px 16px;border-radius:100px;
+  font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:24px}
+.avail-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+.hero h1{font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,6vw,5.2rem);font-weight:800;
+  line-height:1.0;letter-spacing:-2px;color:var(--white);margin-bottom:6px}
+.hero h1 em{display:block;
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 60%,var(--gold3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal}
+.hero-role{font-size:.78rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:22px}
+.hero-divider{width:48px;height:2px;
+  background:linear-gradient(90deg,var(--gold),rgba(200,168,75,.2));margin-bottom:22px}
+.hero-bio{font-size:.95rem;color:var(--muted);max-width:560px;line-height:1.9;margin-bottom:36px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px}
+.btn-g{display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);padding:13px 28px;border-radius:7px;
+  font-weight:700;font-size:.85rem;text-decoration:none;
+  transition:all .2s;box-shadow:0 6px 24px rgba(200,168,75,.22)}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(200,168,75,.35)}
+.btn-o{display:inline-flex;align-items:center;gap:7px;background:transparent;
+  border:1px solid var(--gborder);color:var(--gold2);
+  padding:13px 28px;border-radius:7px;font-weight:500;font-size:.85rem;
+  text-decoration:none;transition:all .2s}
+.btn-o:hover{border-color:var(--gold);background:var(--gb);transform:translateY(-2px)}
+
+/* SOCIAL ICONS HERO */
+.hero-socials{display:flex;gap:10px;flex-wrap:wrap}
+.soc{display:inline-flex;align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:10px;
+  background:var(--gb);border:1px solid var(--gborder);
+  text-decoration:none;font-size:1.05rem;transition:all .2s}
+.soc:hover{background:rgba(200,168,75,.2);border-color:var(--gold);transform:translateY(-2px)}
+
+/* PHOTO CARD */
+.photo-card{background:var(--card);border:1px solid var(--gborder);border-radius:20px;overflow:hidden}
+.photo-ph{width:100%;aspect-ratio:3/4;
+  background:linear-gradient(160deg,var(--card2),var(--card));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;border-bottom:1px solid var(--gborder)}
+.photo-ph-icon{font-size:3.5rem;opacity:.2}
+.photo-ph-txt{font-size:.72rem;color:var(--muted);text-align:center;padding:0 20px;line-height:1.6}
+.photo-info{padding:20px}
+.photo-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;
+  color:var(--white);margin-bottom:3px}
+.photo-sub{font-size:.75rem;color:var(--gold2);font-weight:500;margin-bottom:12px}
+.photo-chips{display:flex;flex-wrap:wrap;gap:5px}
+.pchip{background:var(--gb);border:1px solid var(--gborder);
+  color:var(--gold);font-size:.62rem;font-weight:700;
+  padding:3px 9px;border-radius:4px;letter-spacing:.3px}
+
+/* ── STATS ── */
+.stats-bar{position:relative;z-index:2;
+  background:var(--card);border-top:1px solid var(--gborder);border-bottom:1px solid var(--gborder)}
+.stats-inner{max-width:1240px;margin:0 auto;padding:28px 60px;
+  display:flex;align-items:stretch}
+.stat{flex:1;text-align:center;padding:0 24px;border-right:1px solid var(--gborder)}
+.stat:last-child{border-right:none}
+.stat-v{font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;
+  color:var(--gold2);line-height:1;margin-bottom:4px}
+.stat-l{font-size:.7rem;color:var(--muted);font-weight:500;letter-spacing:.3px}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:2}
+.sw{max-width:1240px;margin:0 auto;padding:90px 60px}
+.sh{margin-bottom:52px}
+.sey{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.sl{width:28px;height:1px;background:var(--gold)}
+.slbl{font-size:.67rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+.stitle{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);
+  font-weight:800;color:var(--white);letter-spacing:-.5px;margin-bottom:10px;line-height:1.1}
+.ssub{color:var(--muted);font-size:.9rem;max-width:500px;line-height:1.7}
+.sdiv{height:1px;background:linear-gradient(90deg,transparent,var(--gborder),transparent);
+  max-width:1240px;margin:0 auto;position:relative;z-index:2}
+
+/* ── EXPERTISE CARDS ── */
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  background:var(--gborder);border:1px solid var(--gborder);border-radius:18px;overflow:hidden}
+.exp-card{background:var(--card);padding:32px 28px;transition:background .3s;position:relative;overflow:hidden}
+.exp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.exp-card:hover{background:var(--card2)}
+.exp-card:hover::before{transform:scaleX(1)}
+.exp-icon{font-size:1.8rem;margin-bottom:16px;display:block}
+.exp-card h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;
+  color:var(--white);margin-bottom:8px}
+.exp-card p{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:14px}
+.exp-tags{display:flex;flex-wrap:wrap;gap:5px}
+.exp-tag{background:var(--gb);border:1px solid var(--gborder);
+  color:var(--gold);font-size:.62rem;font-weight:700;
+  padding:2px 8px;border-radius:4px;letter-spacing:.3px}
+
+/* ── EXPERIENCE TIMELINE ── */
+.timeline{display:flex;flex-direction:column;gap:16px}
+.tcard{background:var(--card);border:1px solid var(--gborder);border-radius:16px;
+  padding:36px 40px;display:grid;grid-template-columns:210px 1fr;gap:40px;
+  transition:all .3s}
+.tcard:hover{background:var(--card2);border-color:rgba(200,168,75,.32);transform:translateX(5px)}
+.tc-left{}
+.tc-dates{font-size:.72rem;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-bottom:8px}
+.tc-co{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;
+  color:var(--white);margin-bottom:4px;line-height:1.2}
+.tc-loc{font-size:.72rem;color:var(--muted);line-height:1.5}
+.tc-badge{display:inline-block;background:var(--gb);border:1px solid var(--gborder);
+  color:var(--gold2);font-size:.6rem;font-weight:700;
+  padding:3px 9px;border-radius:4px;margin-top:10px;letter-spacing:.5px}
+.tc-right h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;
+  color:var(--white);margin-bottom:10px}
+.tc-desc{font-size:.86rem;color:var(--muted);line-height:1.8;margin-bottom:14px}
+.tc-bul{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.tc-bul li{font-size:.84rem;color:var(--muted);padding-left:16px;position:relative;line-height:1.6}
+.tc-bul li::before{content:'▸';position:absolute;left:0;color:var(--gold);font-size:.72rem;top:1px}
+.tc-tags{display:flex;flex-wrap:wrap;gap:5px}
+.tc-tag{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  color:var(--muted);font-size:.66rem;padding:2px 8px;border-radius:4px}
+
+/* ── PROJECTS ── */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.proj-card{background:var(--card);border:1px solid var(--gborder);border-radius:16px;
+  padding:26px 28px;transition:all .3s;position:relative;overflow:hidden}
+.proj-card.ai{border-color:var(--bborder)}
+.proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.proj-card.ai::before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.proj-card:hover{background:var(--card2);transform:translateY(-4px)}
+.proj-card:hover::before{transform:scaleX(1)}
+.proj-card.ai:hover{border-color:rgba(14,165,233,.35)}
+.proj-card:not(.ai):hover{border-color:rgba(200,168,75,.35)}
+.proj-type{font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:12px;display:inline-block;padding:3px 10px;border-radius:100px}
+.pt-elec{background:var(--gb);color:var(--gold);border:1px solid var(--gborder)}
+.pt-ai{background:var(--bb);color:var(--blue2);border:1px solid var(--bborder)}
+.proj-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;
+  color:var(--gborder);line-height:1;margin-bottom:10px}
+.proj-card.ai .proj-num{color:var(--bborder)}
+.proj-card h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;
+  color:var(--white);margin-bottom:7px;line-height:1.3}
+.proj-card p{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:12px}
+.proj-result{font-size:.74rem;font-weight:600;padding:4px 11px;
+  border-radius:6px;display:inline-block;margin-bottom:10px}
+.pr-e{color:var(--gold2);background:var(--gb);border:1px solid var(--gborder)}
+.pr-a{color:var(--green);background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2)}
+.proj-tags{display:flex;flex-wrap:wrap;gap:5px}
+.ptag{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  color:var(--muted);font-size:.63rem;padding:2px 7px;border-radius:4px}
+
+/* ── SKILLS ── */
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sg{background:var(--card);border:1px solid var(--gborder);
+  border-radius:14px;padding:24px 28px}
+.sg.ai-sg{border-color:var(--bborder)}
+.sg-title{font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sg.ai-sg .sg-title{color:var(--blue)}
+.sg-title::after{content:'';flex:1;height:1px;background:var(--gborder)}
+.sg.ai-sg .sg-title::after{background:var(--bborder)}
+.ski{margin-bottom:12px}
+.ski-row{display:flex;justify-content:space-between;margin-bottom:5px}
+.ski-name{font-size:.82rem;font-weight:500;color:var(--text)}
+.ski-pct{font-size:.74rem;color:var(--gold);font-weight:700}
+.sg.ai-sg .ski-pct{color:var(--blue)}
+.ski-bar{height:3px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+.ski-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:100px;width:0;transition:width 1.3s cubic-bezier(.4,0,.2,1)}
+.sg.ai-sg .ski-fill{background:linear-gradient(90deg,var(--blue),var(--blue2))}
+
+/* ── EDUCATION ── */
+.edu-grid{display:flex;flex-direction:column;gap:14px}
+.edu-card{background:var(--card);border:1px solid var(--gborder);border-radius:14px;
+  padding:24px 28px;display:grid;grid-template-columns:52px 1fr;gap:20px;
+  align-items:start;transition:border-color .3s}
+.edu-card:hover{border-color:rgba(200,168,75,.35)}
+.edu-ico{width:52px;height:52px;background:var(--gb);border:1px solid var(--gborder);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.edu-card h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;
+  color:var(--white);margin-bottom:3px}
+.edu-school{color:var(--gold2);font-size:.83rem;font-weight:500;margin-bottom:3px}
+.edu-yr{color:var(--muted);font-size:.76rem}
+.edu-detail{color:var(--muted);font-size:.79rem;margin-top:6px;line-height:1.6}
+
+/* CERTS */
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cert-card{background:var(--card);border:1px solid var(--gborder);
+  border-radius:12px;padding:16px 18px;transition:all .3s}
+.cert-card:hover{border-color:rgba(200,168,75,.35);transform:translateY(-3px)}
+.cert-ico{font-size:1.3rem;margin-bottom:7px}
+.cert-card h4{font-size:.8rem;font-weight:600;color:var(--white);margin-bottom:3px;line-height:1.3}
+.cert-issuer{font-size:.7rem;color:var(--gold2)}
+.cert-date{font-size:.67rem;color:var(--muted);margin-top:2px}
+
+/* ── CONTACT ── */
+.contact-wrap{background:var(--card);border:1px solid var(--gborder);border-radius:22px;
+  overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+.contact-left{padding:52px 48px;border-right:1px solid var(--gborder);position:relative;overflow:hidden}
+.contact-left::before{content:'';position:absolute;top:-80px;left:-80px;
+  width:260px;height:260px;
+  background:radial-gradient(circle,rgba(200,168,75,.07),transparent 70%);pointer-events:none}
+.contact-left::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent)}
+.cth{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;
+  color:var(--white);letter-spacing:-.5px;margin-bottom:8px;line-height:1.1}
+.cth span{color:var(--gold2)}
+.ct-sub{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:32px;max-width:340px}
+
+.ct-ielts{display:flex;align-items:center;gap:12px;
+  background:var(--gb);border:1px solid var(--gborder);
+  border-radius:10px;padding:14px 18px;margin-bottom:28px}
+.ct-ielts-badge{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;color:var(--gold2)}
+.ct-ielts-info{}
+.ct-ielts-label{font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2px}
+.ct-ielts-val{font-size:.85rem;font-weight:600;color:var(--text)}
+
+/* SOCIAL ICON BUTTONS */
+.social-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.social-btn{display:inline-flex;align-items:center;justify-content:center;
+  width:46px;height:46px;border-radius:12px;
+  background:var(--gb);border:1px solid var(--gborder);
+  text-decoration:none;font-size:1.15rem;transition:all .25s;cursor:pointer}
+.social-btn:hover{background:rgba(200,168,75,.2);border-color:var(--gold);
+  transform:translateY(-3px);box-shadow:0 8px 20px rgba(200,168,75,.15)}
+
+.ct-avail{display:flex;align-items:center;gap:10px}
+.ct-avail-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:blink 1.5s infinite;flex-shrink:0}
+.ct-avail-txt{font-size:.8rem;color:var(--muted)}
+.ct-avail-txt span{color:var(--green);font-weight:600}
+
+/* CONTACT FORM */
+.contact-right{padding:52px 48px}
+.cf-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;
+  color:var(--white);margin-bottom:28px}
+.cf-group{margin-bottom:18px}
+.cf-label{font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:7px}
+.cf-input{width:100%;background:rgba(3,9,15,.7);border:1px solid var(--gborder);
+  border-radius:8px;padding:12px 16px;color:var(--text);
+  font-size:.87rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.cf-input:focus{border-color:var(--gold)}
+.cf-input::placeholder{color:var(--muted)}
+textarea.cf-input{resize:vertical;min-height:110px}
+.cf-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);padding:14px;border-radius:8px;font-weight:700;
+  font-size:.9rem;font-family:'Inter',sans-serif;border:none;cursor:pointer;
+  letter-spacing:.3px;transition:opacity .2s;margin-top:4px}
+.cf-btn:hover{opacity:.88}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:2;text-align:center;
+  padding:28px 60px;color:var(--muted);font-size:.78rem;
+  border-top:1px solid var(--gborder)}
+footer span{color:var(--gold)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .8s ease both}
+.fu1{animation-delay:.1s}.fu2{animation-delay:.2s}.fu3{animation-delay:.3s}.fu4{animation-delay:.4s}.fu5{animation-delay:.5s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav{padding:14px 20px}.nav-links{display:none}
+  .hero{padding:100px 20px 60px}.hero-grid{grid-template-columns:1fr}.photo-card{display:none}
+  .stats-inner{padding:20px;flex-wrap:wrap;gap:16px}
+  .stat{flex:1 1 40%;border-right:none;padding:0}
+  .sw{padding:64px 20px}
+  .exp-grid{grid-template-columns:1fr}.tcard{grid-template-columns:1fr;gap:14px;padding:24px}
+  .proj-grid{grid-template-columns:1fr}.skills-grid{grid-template-columns:1fr}
+  .cert-grid{grid-template-columns:1fr 1fr}
+  .contact-wrap{grid-template-columns:1fr}.contact-left{border-right:none;border-bottom:1px solid var(--gborder)}
+  .contact-left,.contact-right{padding:36px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── CIRCUIT BOARD + AI BACKGROUNDS ── -->
+<div class="bg-layer on" id="bg0"
+  style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80&auto=format&fit=crop');filter:brightness(0.13) saturate(0.6) sepia(0.2)"></div>
+<div class="bg-layer" id="bg1"
+  style="background-image:url('https://images.unsplash.com/photo-1581092921461-39b9d08a9b21?w=1920&q=80&auto=format&fit=crop');filter:brightness(0.12) saturate(0.6) sepia(0.25)"></div>
+<div class="bg-layer" id="bg2"
+  style="background-image:url('https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1920&q=80&auto=format&fit=crop');filter:brightness(0.1) saturate(1.2) hue-rotate(200deg)"></div>
+<div class="bg-layer" id="bg3"
+  style="background-image:url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1920&q=80&auto=format&fit=crop');filter:brightness(0.12) saturate(0.6) sepia(0.2)"></div>
+<div class="bg-layer" id="bg4"
+  style="background-image:url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1920&q=80&auto=format&fit=crop');filter:brightness(0.1) saturate(1.3) hue-rotate(190deg)"></div>
+
+<div class="bg-overlay"></div>
+<div class="bg-grid"></div>
+
+<!-- BACKGROUND SWITCHER -->
+<div class="bg-switcher">
+  <div class="bsw-label">Background</div>
+  <div class="bsw-dots">
+    <div class="bsw-dot on" title="Circuit Board" onclick="setBg(0)"></div>
+    <div class="bsw-dot" title="Industrial Electrical" onclick="setBg(1)"></div>
+    <div class="bsw-dot" title="AI Neural Network" onclick="setBg(2)"></div>
+    <div class="bsw-dot" title="PLC/Panel" onclick="setBg(3)"></div>
+    <div class="bsw-dot" title="AI Technology" onclick="setBg(4)"></div>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">FH.</div>
+  <ul class="nav-links">
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="Farrukh_Hussain_CV.pdf" download class="nav-cv">⬇ Download CV</a>
+</nav>
+
+<!-- ── HERO ── -->
+<div style="position:relative;z-index:2">
+<div class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="avail fu"><span class="avail-dot"></span> Available · UK · Canada · Middle East · Remote</div>
+      <h1 class="fu fu1">Farrukh<em>Hussain</em></h1>
+      <div class="hero-role fu fu2">Senior Electrical Engineer &amp; AI · MEng University of Windsor</div>
+      <div class="hero-divider fu fu2"></div>
+      <p class="hero-bio fu fu3">Senior Electrical &amp; Project Engineer with 10+ years of progressive experience in power systems design, industrial automation, PLC/SCADA control systems and large-scale project delivery. MEng from the University of Windsor, Canada. Uniquely combining classical electrical engineering with Data Science &amp; AI — delivering intelligent, data-driven engineering solutions across manufacturing, oil &amp; gas, construction and technology sectors.</p>
+      <div class="hero-btns fu fu4">
+        <a href="#experience" class="btn-g">View Experience →</a>
+        <a href="#projects" class="btn-o">View Projects</a>
+        <a href="Farrukh_Hussain_CV.pdf" download class="btn-o">⬇ Download CV</a>
+      </div>
+      <div class="hero-socials fu fu5">
+        <a href="https://linkedin.com/in/farrukhhussain" target="_blank" class="soc" title="LinkedIn">💼</a>
+        <a href="https://farrukhhussai.github.io" target="_blank" class="soc" title="Portfolio Website">🌐</a>
+        <a href="https://github.com/farrukhhussai" target="_blank" class="soc" title="GitHub">🐙</a>
+        <a href="https://instagram.com/farrukh_hussain" target="_blank" class="soc" title="Instagram">📸</a>
+        <a href="https://twitter.com/farrukhhussain" target="_blank" class="soc" title="Twitter / X">𝕏</a>
+        <a href="Farrukh_Hussain_CV.pdf" download class="soc" title="Download CV">📄</a>
+      </div>
+    </div>
+    <div class="photo-card">
+      <div class="photo-ph">
+        <div class="photo-ph-icon">👤</div>
+        <div class="photo-ph-txt">Add your professional photo here — replace this placeholder with your image</div>
+      </div>
+      <div class="photo-info">
+        <div class="photo-name">Farrukh Hussain</div>
+        <div class="photo-sub">MEng · Electrical &amp; Computer Engineering</div>
+        <div class="photo-chips">
+          <span class="pchip">PEC Member</span>
+          <span class="pchip">Ontario G2</span>
+          <span class="pchip">IELTS CLB 9</span>
+          <span class="pchip">10+ Years</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── STATS ── -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-v">10+</div><div class="stat-l">Years Engineering</div></div>
+    <div class="stat"><div class="stat-v">0</div><div class="stat-l">Unplanned Shutdowns (4.5 yrs)</div></div>
+    <div class="stat"><div class="stat-v">0.78→0.96</div><div class="stat-l">Power Factor Improved</div></div>
+    <div class="stat"><div class="stat-v">CLB 9</div><div class="stat-l">IELTS English Score</div></div>
+    <div class="stat"><div class="stat-v">$M+</div><div class="stat-l">Projects Delivered</div></div>
+    <div class="stat"><div class="stat-v">4</div><div class="stat-l">Industries Served</div></div>
+  </div>
+</div>
+
+<!-- ── EXPERTISE ── -->
+<section id="expertise">
+<div class="sw">
+  <div class="sh">
+    <div class="sey"><div class="sl"></div><span class="slbl">Core Disciplines</span></div>
+    <h2 class="stitle">Areas of Expertise</h2>
+    <p class="ssub">Multidisciplinary electrical engineering expertise built across Pakistan's most demanding industrial environments — now enhanced with AI and Data Science capabilities.</p>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-card">
+      <span class="exp-icon">⚡</span>
+      <h3>Power Systems & Distribution</h3>
+      <p>HV/MV/LV power generation, distribution and protection systems. Load analysis, SLD design, protection coordination, switchgear, transformers and capacitor banks.</p>
+      <div class="exp-tags"><span class="exp-tag">HV/MV/LV</span><span class="exp-tag">Transformers</span><span class="exp-tag">Switchgear</span><span class="exp-tag">Protection Relays</span><span class="exp-tag">Load Analysis</span></div>
+    </div>
+    <div class="exp-card">
+      <span class="exp-icon">🏭</span>
+      <h3>Industrial Automation & PLC/SCADA</h3>
+      <p>Programming and commissioning of Siemens S5/S7 and Allen-Bradley PLCs. SCADA/HMI configuration, VFD integration, motor control centres and industrial protocols.</p>
+      <div class="exp-tags"><span class="exp-tag">Siemens S7</span><span class="exp-tag">Allen-Bradley</span><span class="exp-tag">SCADA/HMI</span><span class="exp-tag">VFDs</span><span class="exp-tag">FAT/SAT</span></div>
+    </div>
+    <div class="exp-card">
+      <span class="exp-icon">📐</span>
+      <h3>Electrical Design & Drafting</h3>
+      <p>Full AutoCAD Electrical and EPLAN drawing packages — SLDs, P&IDs, loop diagrams, cable schedules, panel layouts, wiring schematics and as-built documentation.</p>
+      <div class="exp-tags"><span class="exp-tag">AutoCAD Electrical</span><span class="exp-tag">EPLAN</span><span class="exp-tag">SLD</span><span class="exp-tag">P&IDs</span><span class="exp-tag">BOQ</span></div>
+    </div>
+    <div class="exp-card">
+      <span class="exp-icon">🔧</span>
+      <h3>Installation, Commissioning & Maintenance</h3>
+      <p>End-to-end project execution from design through commissioning. Structured preventive maintenance, root cause analysis and fault diagnosis across industrial manufacturing facilities.</p>
+      <div class="exp-tags"><span class="exp-tag">Commissioning</span><span class="exp-tag">Loop Checking</span><span class="exp-tag">Preventive Maintenance</span><span class="exp-tag">Root Cause Analysis</span></div>
+    </div>
+    <div class="exp-card">
+      <span class="exp-icon">🛡️</span>
+      <h3>Instrumentation & QA/QC</h3>
+      <p>Calibration of pressure, flow, level and temperature instruments. Quality assurance and QC reviews across electrical and instrumentation systems. Electronic test equipment operation.</p>
+      <div class="exp-tags"><span class="exp-tag">Instrument Calibration</span><span class="exp-tag">QA/QC</span><span class="exp-tag">Test Equipment</span><span class="exp-tag">Documentation</span></div>
+    </div>
+    <div class="exp-card">
+      <span class="exp-icon">🤖</span>
+      <h3>AI & Data Science Engineering</h3>
+      <p>Specialised PGD in Data Science with AI from NED University. Machine learning, computer vision, predictive maintenance, data pipelines and Python engineering — applied directly to real industrial problems.</p>
+      <div class="exp-tags"><span class="exp-tag">Python</span><span class="exp-tag">TensorFlow</span><span class="exp-tag">SQL</span><span class="exp-tag">ML Models</span><span class="exp-tag">Predictive Maintenance</span></div>
+    </div>
+  </div>
+</div>
+</section>
+<div class="sdiv"></div>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+<div class="sw">
+  <div class="sh">
+    <div class="sey"><div class="sl"></div><span class="slbl">Career History</span></div>
+    <h2 class="stitle">Professional Experience</h2>
+    <p class="ssub">10+ years hands-on electrical engineering across consulting, manufacturing and industrial sectors in Pakistan.</p>
+  </div>
+  <div class="timeline">
+
+    <div class="tcard">
+      <div class="tc-left">
+        <div class="tc-dates">Oct 2017 – Jul 2023</div>
+        <div class="tc-co">FND Private Limited</div>
+        <div class="tc-loc">HVAC & Electrical Consulting<br>Karachi, Pakistan</div>
+        <span class="tc-badge">FULL TIME · 6 YEARS</span>
+      </div>
+      <div class="tc-right">
+        <h3>Electrical Engineer</h3>
+        <p class="tc-desc">Designed complete HV/MV/LV power generation, distribution and control systems for large-scale commercial, institutional and industrial projects. Delivered multi-million dollar electrical contracts from concept through commissioning.</p>
+        <ul class="tc-bul">
+          <li>Designed HV/MV/LV power systems including load analysis, SLDs, protection coordination and engineering calculations to construction-ready standard</li>
+          <li>Developed BOQs, technical specifications and tender documentation for multi-million dollar procurement contracts</li>
+          <li>Integrated BMS and control systems across mechanical, electrical and HVAC disciplines on complex multi-technology projects</li>
+          <li>Conducted QA/QC reviews across electrical design packages ensuring IEC code compliance</li>
+          <li>Produced full AutoCAD Electrical drawing packages from concept through as-built across all project phases</li>
+          <li>Designed lighting distribution, power distribution, fire & security alarm, CCTV, structured cabling and BMS</li>
+          <li>Coordinated multidisciplinary teams across civil, structural, mechanical and architectural disciplines</li>
+        </ul>
+        <div class="tc-tags">
+          <span class="tc-tag">HV/MV/LV</span><span class="tc-tag">AutoCAD Electrical</span><span class="tc-tag">BOQ</span><span class="tc-tag">BMS</span><span class="tc-tag">Protection Relays</span><span class="tc-tag">QA/QC</span><span class="tc-tag">Switchgear</span><span class="tc-tag">Transformers</span><span class="tc-tag">MEP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tcard">
+      <div class="tc-left">
+        <div class="tc-dates">Mar 2013 – Oct 2017</div>
+        <div class="tc-co">Ismail Group of Industries</div>
+        <div class="tc-loc">Plastiflex Film · Gaddani<br>Baluchistan, Pakistan</div>
+        <span class="tc-badge">FULL TIME · 4.5 YEARS</span>
+      </div>
+      <div class="tc-right">
+        <h3>Electrical & Instrumentation Engineer</h3>
+        <p class="tc-desc">Maintained 100% availability across continuous electronic equipment manufacturing lines — achieving zero unplanned production shutdowns over 4.5 years through structured preventive maintenance of PLC panels, drives, sensors, HMIs and field instrumentation.</p>
+        <ul class="tc-bul">
+          <li>Installed, programmed and commissioned Siemens S7 and Allen-Bradley PLCs — I/O verification, loop commissioning and FAT/SAT testing</li>
+          <li>Improved plant power factor from 0.78 to 0.96 by engineering and commissioning capacitor bank systems — delivering direct energy cost savings</li>
+          <li>Worked on Siemens S5/S7 PLCs, SIMOREG DC drive converters, ATLAS COPCO air compressors and MERO Generators</li>
+          <li>Upgraded IPC System and AC/DC Drives — BRUCKNER SERVTEC GmbH, Germany (Nov–Dec 2015) with zero production impact</li>
+          <li>Installed and automated Thickness Gauge Scanner for precise film thickness measurement in microns</li>
+          <li>Calibrated and maintained pressure, flow, level and temperature instruments; installed Honeywell electric actuators</li>
+          <li>Troubleshot AC/DC motors, STAR-DELTA logic, relay-based slitter machines, hydraulic and pneumatic systems</li>
+          <li>Maintained P&IDs, loop diagrams, wiring schematics and all engineering documentation to as-built configuration</li>
+        </ul>
+        <div class="tc-tags">
+          <span class="tc-tag">Siemens S7 PLC</span><span class="tc-tag">Allen-Bradley</span><span class="tc-tag">SCADA/HMI</span><span class="tc-tag">VFDs</span><span class="tc-tag">Instrumentation</span><span class="tc-tag">FAT/SAT</span><span class="tc-tag">P&IDs</span><span class="tc-tag">Capacitor Banks</span><span class="tc-tag">SIMOREG</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+<div class="sdiv"></div>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+<div class="sw">
+  <div class="sh">
+    <div class="sey"><div class="sl"></div><span class="slbl">Portfolio</span></div>
+    <h2 class="stitle">Projects</h2>
+    <p class="ssub">Electrical engineering projects (primary focus) plus AI & Data Science projects from academic and professional work.</p>
+  </div>
+
+  <!-- ELECTRICAL PROJECTS -->
+  <div class="sey" style="margin-bottom:18px"><div class="sl"></div><span class="slbl">⚡ Electrical Engineering</span></div>
+  <div class="proj-grid" style="margin-bottom:32px">
+    <div class="proj-card">
+      <span class="proj-type pt-elec">⚡ Electrical</span>
+      <div class="proj-num">01</div>
+      <h3>HV/MV/LV Power Distribution System Design</h3>
+      <p>Designed complete HV/MV/LV power generation and distribution systems for large-scale commercial and industrial projects at FND. Full engineering packages from concept to construction including SLDs, cable schedules, protection coordination and load analysis to IEC standards.</p>
+      <div class="proj-result pr-e">✦ Multi-million dollar contracts · IEC compliant</div>
+      <div class="proj-tags"><span class="ptag">HV/LV Design</span><span class="ptag">AutoCAD Electrical</span><span class="ptag">Protection Relays</span><span class="ptag">SLD</span><span class="ptag">BOQ</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-type pt-elec">⚡ Electrical</span>
+      <div class="proj-num">02</div>
+      <h3>Power Factor Correction — Capacitor Bank Engineering</h3>
+      <p>Engineered and commissioned a complete capacitor bank system at the main bus line of Ismail Industries. Designed switching scheme, procured equipment and managed full installation — improving plant power factor from 0.78 to 0.96 and eliminating power penalty charges.</p>
+      <div class="proj-result pr-e">✦ Power Factor: 0.78 → 0.96 · Direct cost saving</div>
+      <div class="proj-tags"><span class="ptag">Capacitor Banks</span><span class="ptag">Power Factor</span><span class="ptag">Energy Efficiency</span><span class="ptag">LV Switchgear</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-type pt-elec">⚡ Electrical</span>
+      <div class="proj-num">03</div>
+      <h3>IPC Upgrade — BRUCKNER SERVTEC GmbH, Germany</h3>
+      <p>Led upgrade of the Integrated Process Control System, DC and AC Drives for manufacturing line 1186 MAC at Ismail Industries in collaboration with BRUCKNER SERVTEC GmbH Germany. Executed with zero production shutdowns through managed phased cutover (Nov–Dec 2015).</p>
+      <div class="proj-result pr-e">✦ Zero production impact · International collaboration</div>
+      <div class="proj-tags"><span class="ptag">Siemens S5/S7</span><span class="ptag">SIMOREG DC Drives</span><span class="ptag">AC Drives</span><span class="ptag">IPC</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-type pt-elec">⚡ Electrical</span>
+      <div class="proj-num">04</div>
+      <h3>PLC/SCADA Automation — Manufacturing Production Lines</h3>
+      <p>Installed, programmed and commissioned Siemens S7 and Allen-Bradley PLC control systems across multiple production lines. Full system integration including I/O verification, loop commissioning and FAT/SAT testing. Zero unplanned shutdowns maintained over 4.5 years.</p>
+      <div class="proj-result pr-e">✦ Zero unplanned shutdowns · 4.5 years</div>
+      <div class="proj-tags"><span class="ptag">Siemens S7</span><span class="ptag">Allen-Bradley</span><span class="ptag">SCADA/HMI</span><span class="ptag">FAT/SAT</span><span class="ptag">Loop Commissioning</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-type pt-elec">⚡ Electrical</span>
+      <div class="proj-num">05</div>
+      <h3>BMS & MEP Integration — Commercial Building Projects</h3>
+      <p>Integrated BMS and control interfaces across mechanical, electrical and HVAC disciplines for multiple large commercial projects at FND. Delivered fire & security alarm, CCTV, structured cabling, communication systems and full BMS commissioning.</p>
+      <div class="proj-result pr-e">✦ Multi-discipline MEP integration</div>
+      <div class="proj-tags"><span class="ptag">BMS</span><span class="ptag">Fire Alarm</span><span class="ptag">CCTV</span><span class="ptag">MEP</span><span class="ptag">Commissioning</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-type pt-elec">⚡ Electrical</span>
+      <div class="proj-num">06</div>
+      <h3>Motor Control Centre Design & Installation</h3>
+      <p>Designed and supervised MCC installation for industrial manufacturing facilities including VFD integration, STAR-DELTA starter logic, AC/DC motor protection and relay-based control circuits. Troubleshot and maintained motors, contactors and protection systems across plant.</p>
+      <div class="proj-result pr-e">✦ Full MCC lifecycle — design to commissioning</div>
+      <div class="proj-tags"><span class="ptag">MCC Design</span><span class="ptag">VFDs</span><span class="ptag">STAR-DELTA</span><span class="ptag">Motor Protection</span><span class="ptag">Relay Logic</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-type pt-elec">⚡ Electrical</span>
+      <div class="proj-num">07</div>
+      <h3>Thickness Gauge Scanner Automation</h3>
+      <p>Installed and automated a Thickness Gauge Scanner at Plastiflex Film plant with precision control parameters for measuring film thickness in microns. Replaced manual measurement with fully automated real-time thickness data feeding directly into the production control system.</p>
+      <div class="proj-result pr-e">✦ Precision automation · Real-time QC</div>
+      <div class="proj-tags"><span class="ptag">Automation</span><span class="ptag">PLC</span><span class="ptag">Sensors</span><span class="ptag">Control Systems</span><span class="ptag">Instrumentation</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-type pt-elec">⚡ Electrical</span>
+      <div class="proj-num">08</div>
+      <h3>Electrical Design — High-Rise Building Systems</h3>
+      <p>Designed complete electrical systems for high-rise commercial buildings including MV/LV substation, main distribution boards, riser systems, emergency generator, UPS, lighting design and small power. Coordinated with structural and M&E disciplines throughout all project phases.</p>
+      <div class="proj-result pr-e">✦ Certified: High-Rise Electrical Design 2019</div>
+      <div class="proj-tags"><span class="ptag">MV/LV Substation</span><span class="ptag">Generator</span><span class="ptag">UPS</span><span class="ptag">Lighting Design</span><span class="ptag">Riser Systems</span></div>
+    </div>
+  </div>
+
+  <!-- AI PROJECTS -->
+  <div class="sey" style="margin-bottom:18px"><div class="sl" style="background:var(--blue)"></div><span class="slbl" style="color:var(--blue)">🤖 AI & Data Science</span></div>
+  <div class="proj-grid">
+    <div class="proj-card ai">
+      <span class="proj-type pt-ai">🤖 AI / ML</span>
+      <div class="proj-num">01</div>
+      <h3>AI Gender & Age Detection from Images</h3>
+      <p>Built a deep learning computer vision system to detect gender and estimate age from images using TensorFlow and OpenCV. Custom SQL data pipelines for extraction and storage. Large dataset processing — 15% accuracy improvement over baseline.</p>
+      <div class="proj-result pr-a">✓ 15% accuracy improvement · NED University 2022</div>
+      <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">TensorFlow</span><span class="ptag">OpenCV</span><span class="ptag">CNN</span><span class="ptag">SQL</span></div>
+    </div>
+    <div class="proj-card ai">
+      <span class="proj-type pt-ai">🤖 AI / ML</span>
+      <div class="proj-num">02</div>
+      <h3>Industrial Predictive Maintenance ML System</h3>
+      <p>Combined 4.5 years of manufacturing domain expertise with machine learning to predict equipment failures before they cause production shutdowns. PLC sensor time-series data feeding anomaly detection models for proactive maintenance alerts.</p>
+      <div class="proj-result pr-a">✓ Zero unplanned shutdowns achieved</div>
+      <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Time-Series ML</span><span class="ptag">Anomaly Detection</span><span class="ptag">Scikit-learn</span><span class="ptag">IoT</span></div>
+    </div>
+    <div class="proj-card ai">
+      <span class="proj-type pt-ai">🤖 Data Engineering</span>
+      <div class="proj-num">03</div>
+      <h3>Large-Scale Data Engineering Pipeline</h3>
+      <p>ETL data pipelines for ingesting, validating, cleaning and analysing industrial datasets exceeding 5 million records. Statistical analysis and data quality checks delivering clean, analysis-ready data for engineering decision-making and executive reporting.</p>
+      <div class="proj-result pr-a">✓ 5M+ records · 99.8% data accuracy</div>
+      <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">SQL</span><span class="ptag">Pandas</span><span class="ptag">ETL</span><span class="ptag">PostgreSQL</span></div>
+    </div>
+    <div class="proj-card ai">
+      <span class="proj-type pt-ai">🤖 AI / ML</span>
+      <div class="proj-num">04</div>
+      <h3>Convolutional Encoder on Xilinx FPGA</h3>
+      <p>Implemented a convolutional encoder with coding rate 3/4 on Xilinx FPGA applying digital signal processing and hardware programming — enabling robust error correction in digital communication systems through mathematical coding theory.</p>
+      <div class="proj-result pr-a">✓ FPGA Implementation · Hamdard University</div>
+      <div class="proj-tags"><span class="ptag">FPGA</span><span class="ptag">Digital Signal Processing</span><span class="ptag">VHDL</span><span class="ptag">Error Correction</span></div>
+    </div>
+  </div>
+</div>
+</section>
+<div class="sdiv"></div>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+<div class="sw">
+  <div class="sh">
+    <div class="sey"><div class="sl"></div><span class="slbl">Technical Proficiency</span></div>
+    <h2 class="stitle">Skills & Tools</h2>
+    <p class="ssub">Electrical engineering skills are primary. AI & Data Science skills complement and enhance engineering practice.</p>
+  </div>
+  <div class="skills-grid" id="skillsGrid">
+    <div class="sg">
+      <div class="sg-title">⚡ Power Systems</div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">HV/MV/LV Power Distribution</span><span class="ski-pct">95%</span></div><div class="ski-bar"><div class="ski-fill" data-w="95"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Electrical Machines & Transformers</span><span class="ski-pct">92%</span></div><div class="ski-bar"><div class="ski-fill" data-w="92"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Power Factor Correction</span><span class="ski-pct">90%</span></div><div class="ski-bar"><div class="ski-fill" data-w="90"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Protective Relays & Coordination</span><span class="ski-pct">88%</span></div><div class="ski-bar"><div class="ski-fill" data-w="88"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">MCC Panels & Switchgear</span><span class="ski-pct">92%</span></div><div class="ski-bar"><div class="ski-fill" data-w="92"></div></div></div>
+    </div>
+    <div class="sg">
+      <div class="sg-title">🏭 Automation & Control</div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">PLC: Siemens S5/S7 / Allen-Bradley</span><span class="ski-pct">90%</span></div><div class="ski-bar"><div class="ski-fill" data-w="90"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">SCADA / HMI Configuration</span><span class="ski-pct">88%</span></div><div class="ski-bar"><div class="ski-fill" data-w="88"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">VFDs & AC/DC Motor Drives</span><span class="ski-pct">88%</span></div><div class="ski-bar"><div class="ski-fill" data-w="88"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">BMS Integration</span><span class="ski-pct">85%</span></div><div class="ski-bar"><div class="ski-fill" data-w="85"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Loop Commissioning & FAT/SAT</span><span class="ski-pct">87%</span></div><div class="ski-bar"><div class="ski-fill" data-w="87"></div></div></div>
+    </div>
+    <div class="sg">
+      <div class="sg-title">📐 Design & Drafting</div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">AutoCAD Electrical / EPLAN</span><span class="ski-pct">88%</span></div><div class="ski-bar"><div class="ski-fill" data-w="88"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Single Line Diagrams & P&IDs</span><span class="ski-pct">92%</span></div><div class="ski-bar"><div class="ski-fill" data-w="92"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Cable Sizing & Load Analysis</span><span class="ski-pct">90%</span></div><div class="ski-bar"><div class="ski-fill" data-w="90"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">MATLAB (Power Simulation)</span><span class="ski-pct">80%</span></div><div class="ski-bar"><div class="ski-fill" data-w="80"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">ETAP (Power System Analysis)</span><span class="ski-pct">72%</span></div><div class="ski-bar"><div class="ski-fill" data-w="72"></div></div></div>
+    </div>
+    <div class="sg ai-sg">
+      <div class="sg-title">🤖 AI & Data Science</div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Python (Data Science & ML)</span><span class="ski-pct">88%</span></div><div class="ski-bar"><div class="ski-fill" data-w="88"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Machine Learning (Scikit-learn)</span><span class="ski-pct">84%</span></div><div class="ski-bar"><div class="ski-fill" data-w="84"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Deep Learning / TensorFlow</span><span class="ski-pct">80%</span></div><div class="ski-bar"><div class="ski-fill" data-w="80"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">SQL / PostgreSQL</span><span class="ski-pct">82%</span></div><div class="ski-bar"><div class="ski-fill" data-w="82"></div></div></div>
+      <div class="ski"><div class="ski-row"><span class="ski-name">Data Visualisation / Power BI</span><span class="ski-pct">82%</span></div><div class="ski-bar"><div class="ski-fill" data-w="82"></div></div></div>
+    </div>
+  </div>
+</div>
+</section>
+<div class="sdiv"></div>
+
+<!-- ── EDUCATION ── -->
+<section id="education">
+<div class="sw">
+  <div class="sh">
+    <div class="sey"><div class="sl"></div><span class="slbl">Qualifications</span></div>
+    <h2 class="stitle">Education & Certifications</h2>
+  </div>
+  <div class="edu-grid" style="margin-bottom:36px">
+    <div class="edu-card">
+      <div class="edu-ico">🎓</div>
+      <div>
+        <h3>Master of Engineering (MEng) — Electrical & Computer Engineering</h3>
+        <div class="edu-school">University of Windsor, Ontario, Canada</div>
+        <div class="edu-yr">2023 – 2025 · Co-op Programme · Ontario G2 Driving Licence</div>
+        <div class="edu-detail">Power systems, control systems, embedded computing, electrical machines. Pursuing P.Eng. eligibility through Engineers Canada.</div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-ico">🤖</div>
+      <div>
+        <h3>Post-Graduate Diploma — Data Science with Artificial Intelligence</h3>
+        <div class="edu-school">NED University of Engineering & Technology, Karachi</div>
+        <div class="edu-yr">Aug 2021 – Sep 2022</div>
+        <div class="edu-detail">Machine learning, data analysis using Python, database systems. Real AI projects applied to engineering datasets.</div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-ico">⚡</div>
+      <div>
+        <h3>Bachelor of Electronics Engineering (BEng)</h3>
+        <div class="edu-school">Hamdard University, Karachi, Pakistan</div>
+        <div class="edu-yr">Sep 2008 – Mar 2013</div>
+        <div class="edu-detail">Control engineering, power electronics, electrical machines, embedded systems, digital control, industrial electronics, AI & robotics foundations.</div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-ico">🇬🇧</div>
+      <div>
+        <h3>IELTS English Language — CLB 9</h3>
+        <div class="edu-school">International English Language Testing System</div>
+        <div class="edu-yr">C1 Proficient · Advanced Near-Native Level</div>
+        <div class="edu-detail">Equivalent to C1–C2 CEFR. Fully professional working English. Primary working language throughout MEng at University of Windsor.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sey" style="margin-bottom:20px"><div class="sl"></div><span class="slbl">Certifications</span></div>
+  <div class="cert-grid">
+    <div class="cert-card"><div class="cert-ico">⚡</div><h4>Electrical Power Systems</h4><div class="cert-issuer">State University of New York</div><div class="cert-date">Apr 2023</div></div>
+    <div class="cert-card"><div class="cert-ico">🏢</div><h4>Electrical Design — High-Rise Buildings</h4><div class="cert-issuer">Skill Development Council</div><div class="cert-date">Jul 2019</div></div>
+    <div class="cert-card"><div class="cert-ico">🧠</div><h4>Machine Learning</h4><div class="cert-issuer">University of London · Coursera</div><div class="cert-date">Mar 2023</div></div>
+    <div class="cert-card"><div class="cert-ico">🌐</div><h4>AI for Everyone</h4><div class="cert-issuer">DeepLearning.AI</div><div class="cert-date">Nov 2022</div></div>
+    <div class="cert-card"><div class="cert-ico">🐍</div><h4>Crash Course on Python</h4><div class="cert-issuer">Google</div><div class="cert-date">May 2023</div></div>
+    <div class="cert-card"><div class="cert-ico">🏛️</div><h4>PEC Member</h4><div class="cert-issuer">Pakistan Engineering Council</div><div class="cert-date">PEC/ELECTRO/19926</div></div>
+  </div>
+</div>
+</section>
+<div class="sdiv"></div>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+<div class="sw">
+  <div style="text-align:center;margin-bottom:48px">
+    <div class="sey" style="justify-content:center;margin-bottom:14px">
+      <div class="sl"></div><span class="slbl">Get In Touch</span><div class="sl"></div>
+    </div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:800;letter-spacing:-1px;color:var(--white)">
+      Let's <span style="color:var(--gold2)">Connect</span>
+    </h2>
+    <p style="color:var(--muted);margin-top:12px;font-size:.9rem;max-width:460px;margin-left:auto;margin-right:auto">Available for Senior Electrical Engineer, Automation, MEP and AI-enhanced engineering roles — UK, Canada, Middle East and Remote</p>
+  </div>
+
+  <div class="contact-wrap">
+    <!-- LEFT -->
+    <div class="contact-left">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:10px">Ready to collaborate?</h3>
+      <p class="ct-sub">Whether you have a project, opportunity or just want to discuss electrical engineering or AI — reach out via any channel below.</p>
+
+      <!-- IELTS BADGE -->
+      <div class="ct-ielts">
+        <div class="ct-ielts-badge">CLB 9</div>
+        <div class="ct-ielts-info">
+          <div class="ct-ielts-label">IELTS English Score</div>
+          <div class="ct-ielts-val">C1 Proficient · Advanced Near-Native English</div>
+        </div>
+      </div>
+
+      <!-- SOCIAL ICONS ONLY — no email/phone/location shown -->
+      <div style="margin-bottom:10px;font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Connect With Me</div>
+      <div class="social-row">
+        <a href="https://linkedin.com/in/farrukhhussain" target="_blank" class="social-btn" title="LinkedIn">💼</a>
+        <a href="https://farrukhhussai.github.io" target="_blank" class="social-btn" title="Portfolio Website">🌐</a>
+        <a href="https://github.com/farrukhhussai" target="_blank" class="social-btn" title="GitHub">🐙</a>
+        <a href="https://instagram.com/farrukh_hussain" target="_blank" class="social-btn" title="Instagram">📸</a>
+        <a href="https://twitter.com/farrukhhussain" target="_blank" class="social-btn" title="Twitter / X">𝕏</a>
+        <a href="mailto:f4farrukhhussain@gmail.com" class="social-btn" title="Email">✉️</a>
+        <a href="Farrukh_Hussain_CV.pdf" download class="social-btn" title="Download CV">📄</a>
+      </div>
+
+      <div class="ct-avail">
+        <div class="ct-avail-dot"></div>
+        <div class="ct-avail-txt">Currently <span>available</span> for new opportunities worldwide</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="contact-right">
+      <div class="cf-title">Send a Message</div>
+      <div class="cf-group">
+        <label class="cf-label">Name</label>
+        <input type="text" class="cf-input" placeholder="Your full name">
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">Email</label>
+        <input type="email" class="cf-input" placeholder="your@email.com">
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">Subject</label>
+        <input type="text" class="cf-input" placeholder="Job opportunity / Project inquiry">
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">Message</label>
+        <textarea class="cf-input" rows="5" placeholder="Tell me about the opportunity or project..."></textarea>
+      </div>
+      <button class="cf-btn" onclick="alert('Thank you! Farrukh will get back to you soon.')">
+        Send Message &nbsp;→
+      </button>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  © 2026 <span>Farrukh Hussain</span> · Senior Electrical Engineer & AI · MEng University of Windsor · PEC/ELECTRO/19926
+</footer>
+
+<script>
+// ── BACKGROUND SWITCHER ──
+const bgs = document.querySelectorAll('.bg-layer');
+const dots = document.querySelectorAll('.bsw-dot');
+let cur = 0, timer;
+
+function setBg(n) {
+  bgs[cur].classList.remove('on');
+  dots[cur].classList.remove('on');
+  cur = n;
+  bgs[cur].classList.add('on');
+  dots[cur].classList.add('on');
+  clearInterval(timer);
+  timer = setInterval(() => setBg((cur + 1) % bgs.length), 6000);
+}
+
+// Auto rotate
+timer = setInterval(() => setBg((cur + 1) % bgs.length), 6000);
+
+// Parallax
+window.addEventListener('mousemove', e => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 12;
+  const y = (e.clientY / window.innerHeight - 0.5) * 12;
+  const active = document.querySelector('.bg-layer.on');
+  if (active) active.style.transform = `scale(1.07) translate(${x}px,${y}px)`;
+});
+
+// ── SKILL BARS ──
+const fills = document.querySelectorAll('.ski-fill');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      fills.forEach(f => { f.style.width = f.dataset.w + '%'; });
+      obs.disconnect();
+    }
+  });
+}, { threshold: 0.2 });
+obs.observe(document.getElementById('skillsGrid'));
+</script>
+</body>
+</html>
